@@ -1,0 +1,134 @@
+@model IReadOnlyList<Practica_1.Models.Campana>
+
+@{
+    ViewData["Title"] = "Campañas Comerciales";
+    var selectedCategoria = Context.Request.Query["categoria"].ToString();
+    var selectedEstado = Context.Request.Query["estado"].ToString();
+}
+
+<div class="page-header">
+    <div class="page-title">
+        <h1>@ViewData["Title"]</h1>
+        <p>Explora las campañas activas y próximas con un resumen rápido de cada una.</p>
+    </div>
+    <div class="toolbar">
+        <a asp-area="" asp-controller="Campanas" asp-action="Index" class="button primary">Listado</a>
+        <a asp-area="" asp-controller="Campanas" asp-action="Resumen" class="button">Resumen</a>
+    </div>
+</div>
+
+<form method="get" class="card-small">
+    <div style="display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+        <label>
+            <div style="font-size:0.85rem; color:var(--muted); margin-bottom:8px;">Categoría</div>
+            <select name="categoria" style="width:100%; padding:12px 14px; border:1px solid var(--border); border-radius:14px; background:var(--surface);
+                color:var(--text);">
+                <option value="">Todas</option>
+                @if (selectedCategoria == "Retail")
+                {
+                    <option value="Retail" selected>Retail</option>
+                }
+                else
+                {
+                    <option value="Retail">Retail</option>
+                }
+                @if (selectedCategoria == "Temporada")
+                {
+                    <option value="Temporada" selected>Temporada</option>
+                }
+                else
+                {
+                    <option value="Temporada">Temporada</option>
+                }
+                @if (selectedCategoria == "Estacional")
+                {
+                    <option value="Estacional" selected>Estacional</option>
+                }
+                else
+                {
+                    <option value="Estacional">Estacional</option>
+                }
+                @if (selectedCategoria == "E-commerce")
+                {
+                    <option value="E-commerce" selected>E-commerce</option>
+                }
+                else
+                {
+                    <option value="E-commerce">E-commerce</option>
+                }
+                @if (selectedCategoria == "Fidelización")
+                {
+                    <option value="Fidelización" selected>Fidelización</option>
+                }
+                else
+                {
+                    <option value="Fidelización">Fidelización</option>
+                }
+            </select>
+        </label>
+        <label>
+            <div style="font-size:0.85rem; color:var(--muted); margin-bottom:8px;">Estado</div>
+            <select name="estado" style="width:100%; padding:12px 14px; border:1px solid var(--border); border-radius:14px; background:var(--surface);
+                color:var(--text);">
+                <option value="">Todos</option>
+                @if (selectedEstado == "Activa")
+                {
+                    <option value="Activa" selected>Activa</option>
+                }
+                else
+                {
+                    <option value="Activa">Activa</option>
+                }
+                @if (selectedEstado == "Planificada")
+                {
+                    <option value="Planificada" selected>Planificada</option>
+                }
+                else
+                {
+                    <option value="Planificada">Planificada</option>
+                }
+                @if (selectedEstado == "Finalizada")
+                {
+                    <option value="Finalizada" selected>Finalizada</option>
+                }
+                else
+                {
+                    <option value="Finalizada">Finalizada</option>
+                }
+                @if (selectedEstado == "En curso")
+                {
+                    <option value="En curso" selected>En curso</option>
+                }
+                else
+                {
+                    <option value="En curso">En curso</option>
+                }
+            </select>
+        </label>
+    </div>
+    <button type="submit" class="button primary" style="margin-top:16px;">Filtrar</button>
+</form>
+
+<div class="grid-3">
+    @foreach (var campana in Model)
+    {
+        var statusClass = campana.Estado?.ToLower().Contains("act") == true ? "vigente" : campana.Estado?.ToLower().Contains("fin") == true ? "finalizada" : campana.Estado?.ToLower().Contains("plan") == true ? "proxima" : "vigente";
+        <article class="campaign-card">
+            <div class="top-row">
+                <span class="label-pill">@campana.Categoria</span>
+                <span class="status-pill @statusClass">@campana.Estado</span>
+            </div>
+            <div>
+                <h2>@campana.Nombre</h2>
+                <div class="campaign-meta">
+                    <span>Canal: @campana.Canal</span>
+                    <span>Descuento: @campana.DescuentoPct.ToString("P0")</span>
+                    <span>@campana.FechaInicio.ToString("dd MMM yyyy") - @campana.FechaFin.ToString("dd MMM yyyy")</span>
+                </div>
+            </div>
+            <div class="campaign-actions">
+                <a asp-controller="Campanas" asp-action="Detalle" asp-route-id="@campana.Id" class="button primary">Ver detalle</a>
+            </div>
+        </article>
+    }
+</div>

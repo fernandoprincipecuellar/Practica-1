@@ -1,0 +1,57 @@
+@{
+    ViewData["Title"] = "Resumen de campañas";
+    var cantidadPorCanal = ViewBag.CantidadPorCanal as Dictionary<string, int> ?? new Dictionary<string, int>();
+    var totalCampanas = ViewBag.TotalCampanas ?? 0;
+    var campanasVigentes = ViewBag.CampanasVigentes ?? 0;
+    var campanasProximas = ViewBag.CampanasProximas ?? 0;
+    var promedioDescuento = ViewBag.PromedioDescuento ?? 0m;
+}
+
+<div class="page-header">
+    <div class="page-title">
+        <h1>@ViewData["Title"]</h1>
+        <p>Observa las métricas clave de tus campañas y la distribución de cada canal.</p>
+    </div>
+</div>
+
+<div class="summary-grid">
+    <div class="metric-card">
+        <p>Total de campañas</p>
+        <h2>@totalCampanas</h2>
+    </div>
+    <div class="metric-card">
+        <p>Campañas vigentes</p>
+        <h2>@campanasVigentes</h2>
+    </div>
+    <div class="metric-card">
+        <p>Campañas próximas</p>
+        <h2>@campanasProximas</h2>
+    </div>
+    <div class="metric-card">
+        <p>Promedio de descuento</p>
+        <h2>@(((decimal)promedioDescuento).ToString("P0"))</h2>
+    </div>
+</div>
+
+<div class="card">
+    <div class="summary-header">
+        <div>
+            <h2 style="margin: 0; font-size: 1.2rem;">Cantidad por canal</h2>
+            <p>Monitorea el número de campañas activas por cada canal.</p>
+        </div>
+    </div>
+
+    <div class="channel-grid">
+        @foreach (var canal in cantidadPorCanal)
+        {
+            <div class="channel-card">
+                <strong>@canal.Key</strong>
+                <span>@canal.Value</span>
+            </div>
+        }
+    </div>
+
+    <div class="summary-action">
+        <a asp-controller="Campanas" asp-action="Index" class="button-link primary">Ver listado completo</a>
+    </div>
+</div>
