@@ -5,6 +5,7 @@ using Practica_1.Models;
 namespace Practica_1.Controllers;
 
 public class HomeController : Controller
+
 {
     public IActionResult Index()
     {
