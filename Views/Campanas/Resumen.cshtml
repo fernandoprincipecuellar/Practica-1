@@ -1,0 +1,56 @@
+@{
+    ViewData["Title"] = "Resumen de campañas";
+    var cantidadPorCanal = ViewBag.CantidadPorCanal as Dictionary<string, int> ?? new Dictionary<string, int>();
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h5>Total de campañas</h5>
+            <p class="fs-4">@ViewBag.TotalCampanas</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h5>Campañas vigentes</h5>
+            <p class="fs-4">@ViewBag.CampanasVigentes</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h5>Campañas próximas</h5>
+            <p class="fs-4">@ViewBag.CampanasProximas</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h5>Promedio de descuento</h5>
+            <p class="fs-4">@(((decimal)ViewBag.PromedioDescuento).ToString("P0"))</p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Cantidad por canal</h4>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Canal</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var canal in cantidadPorCanal)
+                {
+                    <tr>
+                        <td>@canal.Key</td>
+                        <td>@canal.Value</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
