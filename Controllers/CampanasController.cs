@@ -13,9 +13,20 @@ public class CampanasController : Controller
         _campanaService = campanaService;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(string? categoria, string? estado)
     {
         var campanas = _campanaService.ObtenerTodas();
+
+        if (!string.IsNullOrWhiteSpace(categoria))
+        {
+            campanas = campanas.Where(c => string.Equals(c.Categoria, categoria, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+
+        if (!string.IsNullOrWhiteSpace(estado))
+        {
+            campanas = campanas.Where(c => string.Equals(c.Estado, estado, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+
         return View(campanas);
     }
 
