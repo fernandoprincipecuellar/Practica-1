@@ -1,22 +1,46 @@
 @model Practica_1.Models.Campana
 
 @{
-    ViewData["Title"] = "Detalle de campaña";
+    ViewData["Title"] = Model.Nombre;
+    var estadoLower = Model.Estado.ToLower();
+    var statusClass = estadoLower.Contains("act") ? "vigente" : estadoLower.Contains("fin") ? "finalizada" : estadoLower.Contains("plan") ? "proxima" : "vigente";
 }
 
-<h1>@Model.Nombre</h1>
-
-<div class="mb-3">
-    <strong>Categoría:</strong> @Model.Categoria<br />
-    <strong>Estado:</strong> @Model.Estado<br />
-    <strong>Canal:</strong> @Model.Canal<br />
-    <strong>Descuento:</strong> @Model.DescuentoPct.ToString("P0")<br />
-    <strong>Fechas:</strong> @Model.FechaInicio.ToString("dd/MM/yyyy") - @Model.FechaFin.ToString("dd/MM/yyyy")<br />
+<div class="page-header">
+    <div class="page-title">
+        <h1>@Model.Nombre</h1>
+        <p>Detalle completo de la campaña para revisar estado, fechas y descuento.</p>
+    </div>
+    <div class="toolbar">
+        <a asp-controller="Campanas" asp-action="Index" class="button">← Volver al listado</a>
+    </div>
 </div>
 
-<div class="mb-3">
-    <strong>Descripción:</strong>
-    <p>@Model.Descripcion</p>
+<div class="card">
+    <div class="top-row">
+        <span class="label-pill">@Model.Categoria</span>
+        <span class="status-pill @statusClass">@Model.Estado</span>
+    </div>
+    <div class="detail-grid">
+        <div class="detail-item">
+            <strong>Canal</strong>
+            <span>@Model.Canal</span>
+        </div>
+        <div class="detail-item">
+            <strong>Inicio</strong>
+            <span>@Model.FechaInicio.ToString("dd MMM yyyy")</span>
+        </div>
+        <div class="detail-item">
+            <strong>Fin</strong>
+            <span>@Model.FechaFin.ToString("dd MMM yyyy")</span>
+        </div>
+        <div class="detail-item">
+            <strong>Descuento</strong>
+            <span>@Model.DescuentoPct.ToString("P0")</span>
+        </div>
+    </div>
+    <div style="margin-top:24px;">
+        <strong style="display:block; margin-bottom:12px; color:var(--muted);">Descripción</strong>
+        <p style="margin:0; color:var(--text);">@Model.Descripcion</p>
+    </div>
 </div>
-
-<a asp-controller="Campanas" asp-action="Index" class="btn btn-secondary">Volver al listado</a>
