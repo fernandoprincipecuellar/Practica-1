@@ -30,6 +30,22 @@ public class CampanasController : Controller
         return View(campanas);
     }
 
+    public IActionResult Resumen()
+    {
+        var campanas = _campanaService.ObtenerTodas();
+        var today = DateTime.Today;
+
+        ViewBag.TotalCampanas = campanas.Count;
+        ViewBag.CampanasVigentes = campanas.Count(c => c.FechaInicio <= today && c.FechaFin >= today);
+        ViewBag.CampanasProximas = campanas.Count(c => c.FechaInicio > today);
+        ViewBag.PromedioDescuento = campanas.Any() ? campanas.Average(c => c.DescuentoPct) : 0m;
+        ViewBag.CantidadPorCanal = campanas
+            .GroupBy(c => c.Canal)
+            .ToDictionary(g => g.Key, g => g.Count());
+
+        return View();
+    }
+
     public IActionResult Detalle(int id)
     {
         var campana = _campanaService.ObtenerPorId(id);
