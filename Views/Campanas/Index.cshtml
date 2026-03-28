@@ -2,9 +2,124 @@
 
 @{
     ViewData["Title"] = "Listado de campañas";
+    var selectedCategoria = Context.Request.Query["categoria"].ToString();
+    var selectedEstado = Context.Request.Query["estado"].ToString();
 }
 
 <h1>@ViewData["Title"]</h1>
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <label for="categoria" class="form-label">Categoría</label>
+        <select id="categoria" name="categoria" class="form-select">
+            @if (string.IsNullOrWhiteSpace(selectedCategoria))
+            {
+                <option value="" selected>Todas</option>
+            }
+            else
+            {
+                <option value="">Todas</option>
+            }
+
+            @if (selectedCategoria == "Retail")
+            {
+                <option value="Retail" selected>Retail</option>
+            }
+            else
+            {
+                <option value="Retail">Retail</option>
+            }
+
+            @if (selectedCategoria == "Temporada")
+            {
+                <option value="Temporada" selected>Temporada</option>
+            }
+            else
+            {
+                <option value="Temporada">Temporada</option>
+            }
+
+            @if (selectedCategoria == "Estacional")
+            {
+                <option value="Estacional" selected>Estacional</option>
+            }
+            else
+            {
+                <option value="Estacional">Estacional</option>
+            }
+
+            @if (selectedCategoria == "E-commerce")
+            {
+                <option value="E-commerce" selected>E-commerce</option>
+            }
+            else
+            {
+                <option value="E-commerce">E-commerce</option>
+            }
+
+            @if (selectedCategoria == "Fidelización")
+            {
+                <option value="Fidelización" selected>Fidelización</option>
+            }
+            else
+            {
+                <option value="Fidelización">Fidelización</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label for="estado" class="form-label">Estado</label>
+        <select id="estado" name="estado" class="form-select">
+            @if (string.IsNullOrWhiteSpace(selectedEstado))
+            {
+                <option value="" selected>Todos</option>
+            }
+            else
+            {
+                <option value="">Todos</option>
+            }
+
+            @if (selectedEstado == "Activa")
+            {
+                <option value="Activa" selected>Activa</option>
+            }
+            else
+            {
+                <option value="Activa">Activa</option>
+            }
+
+            @if (selectedEstado == "Planificada")
+            {
+                <option value="Planificada" selected>Planificada</option>
+            }
+            else
+            {
+                <option value="Planificada">Planificada</option>
+            }
+
+            @if (selectedEstado == "Finalizada")
+            {
+                <option value="Finalizada" selected>Finalizada</option>
+            }
+            else
+            {
+                <option value="Finalizada">Finalizada</option>
+            }
+
+            @if (selectedEstado == "En curso")
+            {
+                <option value="En curso" selected>En curso</option>
+            }
+            else
+            {
+                <option value="En curso">En curso</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2 align-self-end">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </div>
+</form>
 
 <table class="table table-bordered table-hover">
     <thead>
