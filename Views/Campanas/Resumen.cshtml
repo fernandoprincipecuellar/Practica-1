@@ -1,56 +1,57 @@
 @{
     ViewData["Title"] = "Resumen de campañas";
     var cantidadPorCanal = ViewBag.CantidadPorCanal as Dictionary<string, int> ?? new Dictionary<string, int>();
+    var totalCampanas = ViewBag.TotalCampanas ?? 0;
+    var campanasVigentes = ViewBag.CampanasVigentes ?? 0;
+    var campanasProximas = ViewBag.CampanasProximas ?? 0;
+    var promedioDescuento = ViewBag.PromedioDescuento ?? 0m;
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="page-header">
+    <div class="page-title">
+        <h1>@ViewData["Title"]</h1>
+        <p>Observa las métricas clave de tus campañas y la distribución de cada canal.</p>
+    </div>
+</div>
 
-<div class="row mb-4">
-    <div class="col-md-3">
-        <div class="card p-3">
-            <h5>Total de campañas</h5>
-            <p class="fs-4">@ViewBag.TotalCampanas</p>
-        </div>
+<div class="summary-grid">
+    <div class="metric-card">
+        <p>Total de campañas</p>
+        <h2>@totalCampanas</h2>
     </div>
-    <div class="col-md-3">
-        <div class="card p-3">
-            <h5>Campañas vigentes</h5>
-            <p class="fs-4">@ViewBag.CampanasVigentes</p>
-        </div>
+    <div class="metric-card">
+        <p>Campañas vigentes</p>
+        <h2>@campanasVigentes</h2>
     </div>
-    <div class="col-md-3">
-        <div class="card p-3">
-            <h5>Campañas próximas</h5>
-            <p class="fs-4">@ViewBag.CampanasProximas</p>
-        </div>
+    <div class="metric-card">
+        <p>Campañas próximas</p>
+        <h2>@campanasProximas</h2>
     </div>
-    <div class="col-md-3">
-        <div class="card p-3">
-            <h5>Promedio de descuento</h5>
-            <p class="fs-4">@(((decimal)ViewBag.PromedioDescuento).ToString("P0"))</p>
-        </div>
+    <div class="metric-card">
+        <p>Promedio de descuento</p>
+        <h2>@(((decimal)promedioDescuento).ToString("P0"))</h2>
     </div>
 </div>
 
 <div class="card">
-    <div class="card-body">
-        <h4 class="card-title">Cantidad por canal</h4>
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th>Canal</th>
-                    <th>Cantidad</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var canal in cantidadPorCanal)
-                {
-                    <tr>
-                        <td>@canal.Key</td>
-                        <td>@canal.Value</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <div class="summary-header">
+        <div>
+            <h2 style="margin: 0; font-size: 1.2rem;">Cantidad por canal</h2>
+            <p>Monitorea el número de campañas activas por cada canal.</p>
+        </div>
+    </div>
+
+    <div class="channel-grid">
+        @foreach (var canal in cantidadPorCanal)
+        {
+            <div class="channel-card">
+                <strong>@canal.Key</strong>
+                <span>@canal.Value</span>
+            </div>
+        }
+    </div>
+
+    <div class="summary-action">
+        <a asp-controller="Campanas" asp-action="Index" class="button-link primary">Ver listado completo</a>
     </div>
 </div>
