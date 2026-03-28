@@ -1,0 +1,22 @@
+@model Practica_1.Models.Campana
+
+@{
+    ViewData["Title"] = "Detalle de campaña";
+}
+
+<h1>@Model.Nombre</h1>
+
+<div class="mb-3">
+    <strong>Categoría:</strong> @Model.Categoria<br />
+    <strong>Estado:</strong> @Model.Estado<br />
+    <strong>Canal:</strong> @Model.Canal<br />
+    <strong>Descuento:</strong> @Model.DescuentoPct.ToString("P0")<br />
+    <strong>Fechas:</strong> @Model.FechaInicio.ToString("dd/MM/yyyy") - @Model.FechaFin.ToString("dd/MM/yyyy")<br />
+</div>
+
+<div class="mb-3">
+    <strong>Descripción:</strong>
+    <p>@Model.Descripcion</p>
+</div>
+
+<a asp-controller="Campanas" asp-action="Index" class="btn btn-secondary">Volver al listado</a>

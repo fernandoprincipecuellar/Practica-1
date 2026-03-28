@@ -2,6 +2,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<Practica_1.Services.ICampanaService, Practica_1.Services.InMemoryCampanaService>();
 
 var app = builder.Build();
 
